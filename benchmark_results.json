@@ -1,0 +1,466 @@
+{
+  "total_queries_tested": 30,
+  "target_latency_ms": 200.0,
+  "latency_percentiles_ms": {
+    "p50": 3139.77,
+    "p70": 3293.62,
+    "p100": 4301.06,
+    "mean": 2758.64
+  },
+  "component_breakdown_avg_ms": {
+    "avg_retrieval_ms": 571.61,
+    "avg_generation_ms": 2186.87
+  },
+  "queries": [
+    {
+      "query_index": 1,
+      "query": "भारत की राजधानी क्या है?",
+      "success": false,
+      "total_ms": 1517.95,
+      "metrics": {
+        "retrieval_ms": 529.31,
+        "guardrail_pre_ms": 0.03,
+        "generation_ms": 988.41,
+        "guardrail_post_ms": 0.11,
+        "total_ms": 1517.89
+      },
+      "refused": true,
+      "refusal_reason": "UNGROUNDED_OUTPUT"
+    },
+    {
+      "query_index": 2,
+      "query": "सूर्य ग्रहण कैसे होता है?",
+      "success": false,
+      "total_ms": 1413.0,
+      "metrics": {
+        "retrieval_ms": 701.37,
+        "guardrail_pre_ms": 0.03,
+        "generation_ms": 711.34,
+        "guardrail_post_ms": 0.17,
+        "total_ms": 1412.95
+      },
+      "refused": true,
+      "refusal_reason": "UNGROUNDED_OUTPUT"
+    },
+    {
+      "query_index": 3,
+      "query": "प्रकाश संश्लेषण की प्रक्रिया क्या है?",
+      "success": true,
+      "total_ms": 1715.55,
+      "metrics": {
+        "retrieval_ms": 700.79,
+        "guardrail_pre_ms": 0.01,
+        "generation_ms": 1014.67,
+        "guardrail_post_ms": 0.01,
+        "total_ms": 1715.51
+      },
+      "refused": false,
+      "refusal_reason": null
+    },
+    {
+      "query_index": 4,
+      "query": "मुंबई को भारत की कौन सी राजधानी कहा जाता है?",
+      "success": true,
+      "total_ms": 1502.87,
+      "metrics": {
+        "retrieval_ms": 695.92,
+        "guardrail_pre_ms": 0.01,
+        "generation_ms": 806.88,
+        "guardrail_post_ms": 0.01,
+        "total_ms": 1502.84
+      },
+      "refused": false,
+      "refusal_reason": null
+    },
+    {
+      "query_index": 5,
+      "query": "चंद्र ग्रहण कब होता है?",
+      "success": true,
+      "total_ms": 2220.27,
+      "metrics": {
+        "retrieval_ms": 536.95,
+        "guardrail_pre_ms": 0.01,
+        "generation_ms": 1683.22,
+        "guardrail_post_ms": 0.01,
+        "total_ms": 2220.22
+      },
+      "refused": false,
+      "refusal_reason": null
+    },
+    {
+      "query_index": 6,
+      "query": "हरे पौधे कौन सी गैस छोड़ते हैं?",
+      "success": true,
+      "total_ms": 3596.9,
+      "metrics": {
+        "retrieval_ms": 576.07,
+        "guardrail_pre_ms": 0.01,
+        "generation_ms": 3020.77,
+        "guardrail_post_ms": 0.0,
+        "total_ms": 3596.87
+      },
+      "refused": false,
+      "refusal_reason": null
+    },
+    {
+      "query_index": 7,
+      "query": "अमावस्या के दिन कौन सा ग्रहण होता है?",
+      "success": true,
+      "total_ms": 2028.17,
+      "metrics": {
+        "retrieval_ms": 552.71,
+        "guardrail_pre_ms": 0.01,
+        "generation_ms": 1475.41,
+        "guardrail_post_ms": 0.0,
+        "total_ms": 2028.14
+      },
+      "refused": false,
+      "refusal_reason": null
+    },
+    {
+      "query_index": 8,
+      "query": "भारत सरकार के तीन मुख्य अंग कौन से हैं?",
+      "success": true,
+      "total_ms": 2769.18,
+      "metrics": {
+        "retrieval_ms": 544.56,
+        "guardrail_pre_ms": 0.01,
+        "generation_ms": 2224.52,
+        "guardrail_post_ms": 0.02,
+        "total_ms": 2769.15
+      },
+      "refused": false,
+      "refusal_reason": null
+    },
+    {
+      "query_index": 9,
+      "query": "महाराष्ट्र राज्य की राजधानी क्या है?",
+      "success": true,
+      "total_ms": 1485.55,
+      "metrics": {
+        "retrieval_ms": 829.93,
+        "guardrail_pre_ms": 0.02,
+        "generation_ms": 655.53,
+        "guardrail_post_ms": 0.0,
+        "total_ms": 1485.51
+      },
+      "refused": false,
+      "refusal_reason": null
+    },
+    {
+      "query_index": 10,
+      "query": "प्रकाश संश्लेषण में कौन से घटक आवश्यक हैं?",
+      "success": true,
+      "total_ms": 2615.82,
+      "metrics": {
+        "retrieval_ms": 521.07,
+        "guardrail_pre_ms": 0.01,
+        "generation_ms": 2094.67,
+        "guardrail_post_ms": 0.01,
+        "total_ms": 2615.78
+      },
+      "refused": false,
+      "refusal_reason": null
+    },
+    {
+      "query_index": 11,
+      "query": "क्या चंद्रमा सूर्य और पृथ्वी के बीच आता है?",
+      "success": true,
+      "total_ms": 1909.1,
+      "metrics": {
+        "retrieval_ms": 544.73,
+        "guardrail_pre_ms": 0.01,
+        "generation_ms": 1364.28,
+        "guardrail_post_ms": 0.01,
+        "total_ms": 1909.04
+      },
+      "refused": false,
+      "refusal_reason": null
+    },
+    {
+      "query_index": 12,
+      "query": "पौधे भोजन बनाने के लिए किसका उपयोग करते हैं?",
+      "success": false,
+      "total_ms": 3145.77,
+      "metrics": {
+        "retrieval_ms": 558.17,
+        "guardrail_pre_ms": 0.01,
+        "generation_ms": 2587.4,
+        "guardrail_post_ms": 0.11,
+        "total_ms": 3145.73
+      },
+      "refused": true,
+      "refusal_reason": "UNGROUNDED_OUTPUT"
+    },
+    {
+      "query_index": 13,
+      "query": "श्वसन प्रक्रिया में पौधे क्या करते हैं?",
+      "success": true,
+      "total_ms": 2746.36,
+      "metrics": {
+        "retrieval_ms": 573.14,
+        "guardrail_pre_ms": 0.01,
+        "generation_ms": 2173.13,
+        "guardrail_post_ms": 0.01,
+        "total_ms": 2746.31
+      },
+      "refused": false,
+      "refusal_reason": null
+    },
+    {
+      "query_index": 14,
+      "query": "भारत की वित्तीय राजधानी कौन सी है?",
+      "success": false,
+      "total_ms": 2699.86,
+      "metrics": {
+        "retrieval_ms": 564.72,
+        "guardrail_pre_ms": 0.0,
+        "generation_ms": 2134.93,
+        "guardrail_post_ms": 0.14,
+        "total_ms": 2699.82
+      },
+      "refused": true,
+      "refusal_reason": "UNGROUNDED_OUTPUT"
+    },
+    {
+      "query_index": 15,
+      "query": "कार्यपालिका और विधायिका कहां स्थित हैं?",
+      "success": true,
+      "total_ms": 1441.11,
+      "metrics": {
+        "retrieval_ms": 542.77,
+        "guardrail_pre_ms": 0.01,
+        "generation_ms": 898.26,
+        "guardrail_post_ms": 0.01,
+        "total_ms": 1441.08
+      },
+      "refused": false,
+      "refusal_reason": null
+    },
+    {
+      "query_index": 16,
+      "query": "ग्लूकोज और ऑक्सीजन का निर्माण कैसे होता है?",
+      "success": true,
+      "total_ms": 3811.03,
+      "metrics": {
+        "retrieval_ms": 537.03,
+        "guardrail_pre_ms": 0.01,
+        "generation_ms": 3273.94,
+        "guardrail_post_ms": 0.01,
+        "total_ms": 3811.01
+      },
+      "refused": false,
+      "refusal_reason": null
+    },
+    {
+      "query_index": 17,
+      "query": "मंगल ग्रह पर जीवन की संभावना क्या है?",
+      "success": false,
+      "total_ms": 3234.2,
+      "metrics": {
+        "retrieval_ms": 522.92,
+        "guardrail_pre_ms": 0.01,
+        "generation_ms": 2711.17,
+        "guardrail_post_ms": 0.07,
+        "total_ms": 3234.18
+      },
+      "refused": true,
+      "refusal_reason": "UNGROUNDED_OUTPUT"
+    },
+    {
+      "query_index": 18,
+      "query": "कंप्यूटर का आविष्कार किसने किया?",
+      "success": false,
+      "total_ms": 3279.65,
+      "metrics": {
+        "retrieval_ms": 558.67,
+        "guardrail_pre_ms": 0.01,
+        "generation_ms": 2720.83,
+        "guardrail_post_ms": 0.08,
+        "total_ms": 3279.62
+      },
+      "refused": true,
+      "refusal_reason": "UNGROUNDED_OUTPUT"
+    },
+    {
+      "query_index": 19,
+      "query": "ताजमहल किस शहर में स्थित है?",
+      "success": false,
+      "total_ms": 3225.23,
+      "metrics": {
+        "retrieval_ms": 537.14,
+        "guardrail_pre_ms": 0.01,
+        "generation_ms": 2687.92,
+        "guardrail_post_ms": 0.1,
+        "total_ms": 3225.2
+      },
+      "refused": true,
+      "refusal_reason": "UNGROUNDED_OUTPUT"
+    },
+    {
+      "query_index": 20,
+      "query": "महात्मा गांधी का जन्म कब हुआ था?",
+      "success": false,
+      "total_ms": 3255.44,
+      "metrics": {
+        "retrieval_ms": 550.83,
+        "guardrail_pre_ms": 0.0,
+        "generation_ms": 2704.47,
+        "guardrail_post_ms": 0.07,
+        "total_ms": 3255.41
+      },
+      "refused": true,
+      "refusal_reason": "UNGROUNDED_OUTPUT"
+    },
+    {
+      "query_index": 21,
+      "query": "क्रिकेट विश्व कप 2023 किसने जीता?",
+      "success": false,
+      "total_ms": 3133.76,
+      "metrics": {
+        "retrieval_ms": 557.18,
+        "guardrail_pre_ms": 0.01,
+        "generation_ms": 2576.46,
+        "guardrail_post_ms": 0.06,
+        "total_ms": 3133.73
+      },
+      "refused": true,
+      "refusal_reason": "UNGROUNDED_OUTPUT"
+    },
+    {
+      "query_index": 22,
+      "query": "हिमालय पर्वत की सबसे ऊंची चोटी कौन सी है?",
+      "success": false,
+      "total_ms": 3339.11,
+      "metrics": {
+        "retrieval_ms": 526.01,
+        "guardrail_pre_ms": 0.01,
+        "generation_ms": 2812.96,
+        "guardrail_post_ms": 0.07,
+        "total_ms": 3339.08
+      },
+      "refused": true,
+      "refusal_reason": "UNGROUNDED_OUTPUT"
+    },
+    {
+      "query_index": 23,
+      "query": "गंगा नदी कहां से निकलती है?",
+      "success": false,
+      "total_ms": 4301.06,
+      "metrics": {
+        "retrieval_ms": 525.88,
+        "guardrail_pre_ms": 0.01,
+        "generation_ms": 3775.07,
+        "guardrail_post_ms": 0.06,
+        "total_ms": 4301.04
+      },
+      "refused": true,
+      "refusal_reason": "UNGROUNDED_OUTPUT"
+    },
+    {
+      "query_index": 24,
+      "query": "भारत का संविधान कब लागू हुआ था?",
+      "success": false,
+      "total_ms": 1362.35,
+      "metrics": {
+        "retrieval_ms": 529.92,
+        "guardrail_pre_ms": 0.02,
+        "generation_ms": 832.25,
+        "guardrail_post_ms": 0.11,
+        "total_ms": 1362.31
+      },
+      "refused": true,
+      "refusal_reason": "UNGROUNDED_OUTPUT"
+    },
+    {
+      "query_index": 25,
+      "query": "एआई और मशीन लर्निंग में क्या अंतर है?",
+      "success": false,
+      "total_ms": 3326.22,
+      "metrics": {
+        "retrieval_ms": 552.96,
+        "guardrail_pre_ms": 0.01,
+        "generation_ms": 2773.02,
+        "guardrail_post_ms": 0.15,
+        "total_ms": 3326.16
+      },
+      "refused": true,
+      "refusal_reason": "UNGROUNDED_OUTPUT"
+    },
+    {
+      "query_index": 26,
+      "query": "सौर मंडल में कुल कितने ग्रह हैं?",
+      "success": false,
+      "total_ms": 3272.72,
+      "metrics": {
+        "retrieval_ms": 565.04,
+        "guardrail_pre_ms": 0.01,
+        "generation_ms": 2707.41,
+        "guardrail_post_ms": 0.16,
+        "total_ms": 3272.65
+      },
+      "refused": true,
+      "refusal_reason": "UNGROUNDED_OUTPUT"
+    },
+    {
+      "query_index": 27,
+      "query": "पानी का रासायनिक सूत्र क्या है?",
+      "success": false,
+      "total_ms": 3406.84,
+      "metrics": {
+        "retrieval_ms": 549.14,
+        "guardrail_pre_ms": 0.0,
+        "generation_ms": 2857.47,
+        "guardrail_post_ms": 0.14,
+        "total_ms": 3406.78
+      },
+      "refused": true,
+      "refusal_reason": "UNGROUNDED_OUTPUT"
+    },
+    {
+      "query_index": 28,
+      "query": "अंतरिक्ष में जाने वाले पहले भारतीय कौन थे?",
+      "success": false,
+      "total_ms": 3378.0,
+      "metrics": {
+        "retrieval_ms": 554.86,
+        "guardrail_pre_ms": 0.01,
+        "generation_ms": 2822.86,
+        "guardrail_post_ms": 0.16,
+        "total_ms": 3377.94
+      },
+      "refused": true,
+      "refusal_reason": "UNGROUNDED_OUTPUT"
+    },
+    {
+      "query_index": 29,
+      "query": "पायथन प्रोग्रामिंग भाषा के लेखक कौन हैं?",
+      "success": false,
+      "total_ms": 3432.68,
+      "metrics": {
+        "retrieval_ms": 562.56,
+        "guardrail_pre_ms": 0.01,
+        "generation_ms": 2869.86,
+        "guardrail_post_ms": 0.16,
+        "total_ms": 3432.63
+      },
+      "refused": true,
+      "refusal_reason": "UNGROUNDED_OUTPUT"
+    },
+    {
+      "query_index": 30,
+      "query": "योग दिवस कब मनाया जाता है?",
+      "success": false,
+      "total_ms": 4193.34,
+      "metrics": {
+        "retrieval_ms": 545.94,
+        "guardrail_pre_ms": 0.01,
+        "generation_ms": 3647.12,
+        "guardrail_post_ms": 0.17,
+        "total_ms": 4193.29
+      },
+      "refused": true,
+      "refusal_reason": "UNGROUNDED_OUTPUT"
+    }
+  ]
+}

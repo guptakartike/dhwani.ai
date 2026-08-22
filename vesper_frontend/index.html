@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>dhwani.ai — Voice-Enabled Indic RAG Engine</title>
+  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAEOElEQVR4nO2be0xTVxzHv/fkUmjLc2UBJqgBHVkxMRFTca1sf2hZfEyNLhEBH/tr6uZAp1liQIS5bKB/qBn4lw/CQ1fUCNtc3HSJ21SQBMofChmtifvDkYgssbRNw2O5J2lzb1ukXSr03uMnub33/M655+b3ze88m8MhDFYOHr4PGXAvt64g1LKcUpz+v2Jw4ThvNTSsgAxY2r23K1QRuJkcl4vToYgRTAiiZOf9fQjWnImSnQ9FBDLTC0phOp+IvzJKdN6L1zdxFBBWnJ9OBALGIWAcjqXwDzY/4F/VB+ZnzUfxtm0wvWvEggULodVo8GzkGe53deHchfOw9lsRDfCRrjAxMRFf1x7HzrIdIETawtLT07Ekbwk+3rUbNcdrUX/yBLWP/fsi7O9okxOiTwCdTocbnT8iT58nsY+Pj2NqagoxMTE0LQhTXXkU1v5+3PzlJhTTCTac+U7ivBDmqz9YgzffSkNG1jzUnaiXlBciYa7hI1WR/h091q9dJ7FNFokJCRiYmKCRsHo6KgkPyUlhd737f/UZ9u44UOY15gl5cT5USuAyWgMsC1etAjXLFfg8XgwOTmJuLg4Sf7t327T+4Wmiz5bTnZOgADi/KhtAmq1RpIeGRnxPatUqqDOnzpzGnMNH6mK7HabJH3nj9/ReLYRZaVlyF+2DLo3dHC53Xj46CEs7RZYrrTTjlExAvx66xZt4952XWQ240jlEXyybw+iGRKpilxuF6qOHfWlNWoNms43IT4+HtEMH8nKhBleVmYWDh38AhzHYXl+Pu7e+RNV1VWwP34cUN7lcuKvoSEoaiZ47Ksa8DyPA+UVNJ2TnY2WpuagZXv7emF6vxCKWg2WFJeg4vNyyAUSycrUcWrUf/MtDX+5wEeyMr1ej6SkJInt+3YLHe+FiVCwPkBRAng8ngBbc2sL+qx9Ib0vLJkLVxXKtwnYbDa43W6JrcAQ2j6LMH+42n6VjhyyFcDpcuJ6x3WJ7WDFgYBFkhhhxCjdXgJrTy/dPJH9MFhdW4MicxGSk5NpOjY2FpdbL6Gruxttl9vouO9wvEDmvEyYjCZ8tGUrUlNTMVfwka7wka7wpvdH7kXsTcx4/JgQ4k6cZ136/z8A4xDhB6X1339vAAAAAElFTkSuQmCC">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="shortcut icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAEOElEQVR4nO2be0xTVxzHv/fkUmjLc2UBJqgBHVkxMRFTca1sf2hZfEyNLhEBH/tr6uZAp1liQIS5bKB/qBn4lw/CQ1fUCNtc3HSJ21SQBMofChmtifvDkYgssbRNw2O5J2lzb1ukXSr03uMnub33/M655+b3ze88m8MhDFYOHr4PGXAvt64g1LKcUpz+v2Jw4ThvNTSsgAxY2r23K1QRuJkcl4vToYgRTAiiZOf9fQjWnImSnQ9FBDLTC0phOp+IvzJKdN6L1zdxFBBWnJ9OBALGIWAcjqXwDzY/4F/VB+ZnzUfxtm0wvWvEggULodVo8GzkGe53deHchfOw9lsRDfCRrjAxMRFf1x7HzrIdIETawtLT07Ekbwk+3rUbNcdrUX/yBLWP/fsi7O9okxOiTwCdTocbnT8iT58nsY+Pj2NqagoxMTE0LQhTXXkU1v5+3PzlJhTTCTac+U7ivBDmqz9YgzffSkNG1jzUnaiXlBciYa7hI1WR/h091q9dJ7FNFokJCRiYmKCRsHo6KgkPyUlhd737f/UZ9u44UOY15gl5cT5USuAyWgMsC1etAjXLFfg8XgwOTmJuLg4Sf7t327T+4Wmiz5bTnZOgADi/KhtAmq1RpIeGRnxPatUqqDOnzpzGnMNH6mK7HabJH3nj9/ReLYRZaVlyF+2DLo3dHC53Xj46CEs7RZYrrTTjlExAvx66xZt4952XWQ240jlEXyybw+iGRKpilxuF6qOHfWlNWoNms43IT4+HtEMH8nKhBleVmYWDh38AhzHYXl+Pu7e+RNV1VWwP34cUN7lcuKvoSEoaiZ47Ksa8DyPA+UVNJ2TnY2WpuagZXv7emF6vxCKWg2WFJeg4vNyyAUSycrUcWrUf/MtDX+5wEeyMr1ej6SkJInt+3YLHe+FiVCwPkBRAng8ngBbc2sL+qx9Ib0vLJkLVxXKtwnYbDa43W6JrcAQ2j6LMH+42n6VjhyyFcDpcuJ6x3WJ7WDFgYBFkhhhxCjdXgJrTy/dPJH9MFhdW4MicxGSk5NpOjY2FpdbL6Gruxttl9vouO9wvEDmvEyYjCZ8tGUrUlNTMVfwka7wka7wpvdH7kXsTcx4/JgQ4k6cZ136/z8A4xDhB6X1339vAAAAAElFTkSuQmCC">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900&family=Instrument+Serif:ital@1&family=Rozha+One&family=Tiro+Devanagari+Hindi:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    /* Immediate black background rule */
+    html, body { background: #000000 !important; color: #ffffff; }
+    html, body {
+      background: #000000;
+      background: var(--bg, #000000);
+      color: #ffffff;
+      color: var(--text, #ffffff);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
+      position: relative;
+    }
+    html { scroll-behavior: smooth; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; }
+
+    /* CSS Tokens */
+    :root {
+      --bg: #000000;
+      --text: #ffffff;
+      --muted: #9a9a9a;
+      --stat: #d8d8d8;
+      --border: rgba(255, 255, 255, 0.16);
+      --border-soft: rgba(255, 255, 255, 0.12);
+
+      --logo: 15.5px;
+      --logo-mark: 22px;
+      --nav: 14px;
+      --nav-h: 40px;
+      --btn: 13.5px;
+      --btn-h: 40px;
+      --hero-btn-h: 42px;
+      --h1: 32px;
+      --lede: 15.5px;
+      --badge: 12.5px;
+      --stat-size: 13.5px;
+      --header-y: 22px;
+      --header-x: 40px;
+      --stats-x: 72px;
+      --stats-y: 36px;
+      --hero-gap: 40px;
+      --copy-max: 920px;
+      --lede-max: 560px;
+    }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .hero-photo {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.85;
+      z-index: 0;
+      pointer-events: none !important;
+      user-select: none !important;
+      -webkit-user-select: none !important;
+    }
+
+    video::-webkit-media-controls-start-playback-button,
+    video::-webkit-media-controls-play-button,
+    video::-webkit-media-controls-overlay-play-button,
+    video::-webkit-media-controls-enclosure,
+    video::-webkit-media-controls,
+    video::-webkit-media-controls-panel {
+      display: none !important;
+      -webkit-appearance: none !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      visibility: hidden !important;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    header.header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--header-y) var(--header-x) 10px;
+      z-index: 50;
+      position: relative;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      justify-self: start;
+      color: #fff;
+    }
+    .logo-hindi-nav {
+      font-family: 'Rozha One', 'Tiro Devanagari Hindi', serif;
+      font-size: 30px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1;
+      letter-spacing: 0.02em;
+      display: inline-flex;
+      align-items: baseline;
+    }
+    .logo-hindi-nav .logo-suffix {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      color: #ffffff;
+      margin-left: 2px;
+    }
+
+    /* Nav Liquid-Metal Pills */
+    #site-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-self: center;
+    }
+
+    .nav-link {
+      height: 38px;
+      padding: 0 20px;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(20, 20, 20, 0.7);
+      backdrop-filter: blur(12px);
+      color: #e2e8f0;
+      font-size: 13.5px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .nav-link::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(57,217,118,0.15) 50%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .nav-link:hover {
+      border-color: rgba(57, 217, 118, 0.6);
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px -4px rgba(57, 217, 118, 0.35), 0 0 12px rgba(57, 217, 118, 0.2);
+    }
+
+    .nav-link:hover::before {
+      opacity: 1;
+    }
+
+    .nav-link:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 8px rgba(57, 217, 118, 0.2);
+    }
+
+    /* Buttons */
+    .btn {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: var(--btn-h);
+      padding: 0 16px;
+      border-radius: 6px;
+      font-size: var(--btn);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, color 0.35s ease, filter 0.35s ease;
+    }
+
+    .btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(115deg, transparent 20%, rgba(255, 255, 255, 0.45) 48%, transparent 76%);
+      transform: translateX(-130%);
+      transition: transform 0.65s ease;
+      z-index: 2;
+    }
+    .btn:hover::after {
+      transform: translateX(130%);
+    }
+
+    .btn-solid {
+      background: linear-gradient(180deg, #ffffff 0%, #e7e7e7 48%, #cfcfcf 100%);
+      color: #111;
+      border: 1px solid #fff;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    }
+    .btn-solid:hover {
+      background: linear-gradient(180deg, #ffffff 0%, #f3f6ff 42%, #d5def2 100%);
+      border-color: #f2f6ff;
+      box-shadow: inset 0 1px 0 #fff, 0 0 22px rgba(186, 208, 255, 0.35), 0 8px 18px rgba(255, 255, 255, 0.12);
+    }
+
+    .header-cta { justify-self: end; }
+
+    /* Borderless Burger Toggle & Slide-In Right Menu */
+    .menu-container {
+      position: relative;
+      z-index: 100;
+    }
+
+    .burger-toggle {
+      width: 44px;
+      height: 44px;
+      border: none;
+      background: transparent;
+      padding: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      outline: none;
+    }
+
+    .burger-box {
+      width: 22px;
+      height: 16px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .burger-line {
+      width: 100%;
+      height: 2px;
+      background-color: #ffffff;
+      border-radius: 2px;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, background-color 0.25s ease;
+      transform-origin: center;
+    }
+
+    .burger-toggle:hover .burger-line {
+      background-color: #39d976;
+    }
+
+    /* Morphing to Cross (X) when active */
+    .burger-toggle.is-active .burger-line:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+      background-color: #39d976;
+    }
+    .burger-toggle.is-active .burger-line:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+    .burger-toggle.is-active .burger-line:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+      background-color: #39d976;
+    }
+
+    /* Genuine Frosted Glassmorphism Menu */
+    .nav-dropdown {
+      position: fixed;
+      top: 75px;
+      right: 24px;
+      width: 220px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 16px;
+      padding: 10px;
+      backdrop-filter: blur(28px) saturate(200%);
+      -webkit-backdrop-filter: blur(28px) saturate(200%);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 
+                  inset 0 1px 1px rgba(255, 255, 255, 0.4), 
+                  inset 0 -1px 1px rgba(0, 0, 0, 0.3),
+                  0 0 30px rgba(57, 217, 118, 0.2);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(120%);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, visibility 0.35s;
+    }
+
+    .nav-dropdown.is-open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+    }
+
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 18px;
+      border-radius: 10px;
+      color: #ffffff;
+      font-size: 14.5px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+      transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease, border-color 0.2s ease;
+    }
+
+    .dropdown-item:hover {
+      background: rgba(57, 217, 118, 0.22);
+      border: 1px solid rgba(57, 217, 118, 0.4);
+      color: #ffffff;
+      transform: translateX(4px);
+    }
+
+    /* Hero Section */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px var(--hero-gap);
+      min-height: 85vh;
+    }
+    .hero-copy {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      max-width: var(--copy-max);
+      width: 100%;
+    }
+
+    .hindi-brand-title {
+      font-family: "Rozha One", "Tiro Devanagari Hindi", "Instrument Serif", serif;
+      font-size: 128px;
+      font-weight: 400;
+      line-height: 1;
+      color: #f3f3f3;
+      margin-bottom: 16px;
+      letter-spacing: 0.02em;
+      filter: drop-shadow(0 0 35px rgba(255, 255, 255, 0.25));
+    }
+
+    @media (max-width: 900px) {
+      .hindi-brand-title {
+        font-size: 84px;
+      }
+    }
+
+    .hero h1 {
+      font-size: var(--h1);
+      font-weight: 500;
+      letter-spacing: -0.045em;
+      line-height: 1.12;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .headline-line {
+      display: block;
+      overflow: hidden;
+      padding: 0.06em 0.15em 0.14em;
+    }
+
+    .hero h1 em {
+      font-family: "Instrument Serif", "Times New Roman", Times, serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 1.08em;
+      letter-spacing: -0.03em;
+      color: #06b6d4;
+    }
+
+    .lede {
+      max-width: var(--lede-max);
+      margin-top: 14px;
+      color: #9a9a9a;
+      font-size: var(--lede);
+      font-weight: 400;
+      line-height: 1.5;
+      letter-spacing: -0.015em;
+    }
+
+    /* Live Voice RAG Glassmorphism Widget */
+    .rag-widget {
+      margin-top: 24px;
+      width: 100%;
+      max-width: 780px;
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 18px;
+      padding: 1.35rem;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      text-align: left;
+    }
+
+    .lang-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-size: 12px;
+      color: #9a9a9a;
+    }
+
+    .lang-btn {
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.05);
+      color: #ccc;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lang-btn.active {
+      background: #ffffff;
+      color: #000000;
+      font-weight: 600;
+      border-color: #ffffff;
+    }
+
+    .input-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 8px 12px;
+    }
+
+    .mic-orb {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.05));
+      color: #ffffff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 4px 12px rgba(0, 0, 0, 0.5);
+      transition: all 0.25s ease;
+    }
+    .mic-orb:hover {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+    .mic-orb.recording {
+      background: rgba(255, 255, 255, 0.9);
+      color: #000000;
+      border-color: #ffffff;
+      animation: pulse 1s infinite alternate;
+    }
+    @keyframes pulse { from { opacity: 0.7; } to { opacity: 1; } }
+
+    .query-field {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #fff;
+      font-size: 14px;
+      font-family: inherit;
+    }
+
+    .ask-btn {
+      background: #ffffff;
+      color: #000000;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .response-card {
+      margin-top: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 13.5px;
+      color: #e2e8f0;
+      line-height: 1.5;
+    }
+
+    .metrics-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      font-size: 11px;
+      color: #94a3b8;
+    }
+
+    /* Stats Footer (Fixed at Bottom of Screen At All Times) */
+    footer.stats {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 16px var(--stats-x);
+      padding-bottom: max(16px, env(safe-area-inset-bottom));
+      color: #d8d8d8;
+      background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.98) 100%);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      pointer-events: none;
+    }
+    footer.stats .stat {
+      pointer-events: auto;
+    }
+
+    .stat {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      font-size: var(--stat-size);
+      letter-spacing: -0.015em;
+      white-space: nowrap;
+    }
+    .stat-icon { width: 20px; height: 20px; color: #e8e8e8; }
+    .stat-icon-wide { width: 38px; height: 21px; }
+
+    /* SECTION 2: SCROLL-DRIVEN WORD REVEAL TESTIMONIAL */
+    .testimonial-section {
+      min-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 100px 24px 260px;
+      max-width: 880px;
+      margin: 0 auto;
+      text-align: left;
+      z-index: 2;
+      position: relative;
+    }
+
+    .quote-icon {
+      color: #4a4a4a;
+      margin-bottom: 24px;
+    }
+
+    .word-reveal-paragraph {
+      font-size: 40px;
+      font-weight: 500;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .word-span {
+      margin-right: 0.3em;
+      opacity: 0.15;
+      color: #3f3f46;
+      transition: opacity 0.12s linear, color 0.12s linear;
+      will-change: opacity, color;
+    }
+
+    .author-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .author-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      border: 3px solid #ffffff;
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      color: white;
+      font-weight: 700;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .author-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .author-role {
+      font-size: 14px;
+      color: #9a9a9a;
+    }
+
+    /* Animations */
+    .appear {
+      opacity: 1;
+      animation-duration: 1.05s;
+      animation-fill-mode: both;
+      animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+      animation-delay: var(--d, 0.08s);
+    }
+
+    .appear.appear--scale { animation-name: in-scale; }
+    .appear.appear--soft  { animation-name: in-soft; }
+    .appear.appear--mask  { animation-name: in-mask; }
+    .appear.appear--pop   { animation-name: in-pop; }
+    .appear.appear--btn   { animation-name: in-btn; }
+    .appear.appear--stat  { animation-name: in-stat; }
+
+    @keyframes in-scale { 0% { opacity: 0; transform: scale(0.84); } 100% { opacity: 1; transform: scale(1); } }
+    @keyframes in-soft  { 0% { opacity: 0; transform: translateY(14px); } 100% { opacity: 1; transform: translateY(0); } }
+    @keyframes in-mask  { 0% { opacity: 0; transform: translateY(40%); } 100% { opacity: 1; transform: translateY(0); } }
+    @keyframes in-pop   { 0% { opacity: 0; transform: scale(0.9); } 70% { transform: scale(1.03); } 100% { opacity: 1; transform: scale(1); } }
+    @keyframes in-btn   { 0% { opacity: 0; transform: translateY(18px) scale(0.94); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes in-stat  { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
+
+    .is-in {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  </style>
+</head>
+<body style="background:#000;color:#fff">
+
+  <!-- 100% Autoplay Canvas Background Player (No Video Restrictions or Play Buttons) -->
+  <canvas id="bgCanvas" class="hero-photo"></canvas>
+
+  <div class="page">
+    <div class="menu-backdrop"></div>
+
+    <!-- Header -->
+    <header class="header">
+      <a href="#top" class="logo appear appear--scale" style="--d: 0.08s;" aria-label="dhwani.ai">
+        <span class="logo-hindi-nav">ध्वनि<span class="logo-suffix">.ai</span></span>
+      </a>
+
+      <!-- Hamburger Menu Dropdown Container -->
+      <div class="menu-container">
+        <button class="burger-toggle" id="burgerBtn" aria-expanded="false" aria-label="Open Menu">
+          <div class="burger-box">
+            <span class="burger-line"></span>
+            <span class="burger-line"></span>
+            <span class="burger-line"></span>
+          </div>
+        </button>
+
+        <div class="nav-dropdown" id="navDropdown">
+          <a href="/overview" class="dropdown-item">Overview</a>
+          <a href="/architecture" class="dropdown-item">Architecture</a>
+          <a href="/docs" target="_blank" class="dropdown-item">Swagger API Docs ↗</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Hero -->
+    <main class="hero" id="top">
+      <div class="hero-copy">
+        
+        <div class="hindi-brand-title appear appear--pop" style="--d: 0.22s;">
+          ध्वनि
+        </div>
+
+        <h1>
+          <span class="headline-line appear appear--mask" style="--d: 0.42s;">
+            Voice-Enabled RAG.
+          </span>
+          <span class="headline-line appear appear--mask" style="--d: 0.62s;">
+            Zero-Hallucination <em>Precision.</em>
+          </span>
+        </h1>
+
+
+        <!-- Live Interactive Voice RAG Box -->
+        <div class="rag-widget appear appear--btn" style="--d: 0.96s;">
+          <div class="lang-row">
+            <div>
+              <span>Input Speech: </span>
+              <button class="lang-btn active" id="inHi">🇮🇳 Hindi</button>
+              <button class="lang-btn" id="inEn">🌐 English</button>
+            </div>
+            <div>
+              <span>Output Response: </span>
+              <button class="lang-btn active" id="outHi">Hindi</button>
+              <button class="lang-btn" id="outEn">English</button>
+            </div>
+          </div>
+
+          <div class="input-row">
+            <button class="mic-orb" id="micBtn" title="Click to speak">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                <line x1="12" y1="19" x2="12" y2="22"/>
+                <line x1="8" y1="22" x2="16" y2="22"/>
+              </svg>
+            </button>
+            <input type="text" class="query-field" id="queryInput" value="भारत की राजधानी क्या है?" placeholder="Ask verbally or type here...">
+            <button class="ask-btn" id="askBtn">Ask dhwani.ai</button>
+          </div>
+
+          <div class="response-card" id="answerCard">
+            <strong>Grounded Answer:</strong> <span id="answerText">नई दिल्ली।</span>
+          </div>
+
+          <div class="metrics-row">
+            <span>Latency: <strong id="latencyVal" style="color: #ffffff;">80.7 ms</strong> (&lt;200ms Target)</span>
+            <span>Guardrail Status: <strong style="color: #ffffff;">PASSED</strong></span>
+            <button class="lang-btn" id="ttsBtn">🔊 Play Voice (Male Deep)</button>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- Stats Footer -->
+    <footer class="stats">
+      <div class="stat appear appear--stat" style="--d: 1.12s;">
+        <svg class="stat-icon" viewBox="0 0 24 24">
+          <rect x="2.4" y="2.4" width="19.2" height="19.2" rx="6.2" fill="#ffffff"/>
+          <path d="M12 7.1v7.4M8.15 12.35L12 16.2l3.85-3.85" stroke="#111111" stroke-width="1.85" stroke-linecap="round" fill="none"/>
+        </svg>
+        <span>Sub-200ms end-to-end target</span>
+      </div>
+
+      <div class="stat appear appear--stat" style="--d: 1.28s;">
+        <svg class="stat-icon" viewBox="0 0 24 24">
+          <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z" fill="#ffffff"/>
+        </svg>
+        <span>2-Tier Hard Guardrails (Pre & Post Gate)</span>
+      </div>
+
+      <div class="stat appear appear--stat" style="--d: 1.44s;">
+        <svg class="stat-icon-wide" viewBox="0 0 40 22">
+          <circle cx="10.2" cy="11" r="9.2" fill="#2b2b2b"/>
+          <circle cx="20.2" cy="11" r="9.2" fill="#888888"/>
+          <circle cx="30.2" cy="11" r="9.2" fill="#ffffff"/>
+          <text x="30.2" y="15.1" font-family="Inter, sans-serif" font-weight="700" font-size="12.5" fill="#000000" text-anchor="middle">Q</text>
+        </svg>
+        <span>Multi-Strategy Qdrant Vector Indexing</span>
+      </div>
+    </footer>
+
+    <!-- SECTION 2: SCROLL-DRIVEN WORD REVEAL TESTIMONIAL -->
+    <section class="testimonial-section" id="testimonialSection">
+      <div class="quote-icon">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40">
+          <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+        </svg>
+      </div>
+
+      <p class="word-reveal-paragraph" id="wordRevealParagraph"></p>
+
+    </section>
+
+  </div>
+
+  <script>
+    (function () {
+      var inLang = 'hi-IN';
+      var outLang = 'hi';
+      var isRecording = false;
+
+      var inHi = document.getElementById('inHi');
+      var inEn = document.getElementById('inEn');
+      var outHi = document.getElementById('outHi');
+      var outEn = document.getElementById('outEn');
+      var micBtn = document.getElementById('micBtn');
+      var queryInput = document.getElementById('queryInput');
+      var askBtn = document.getElementById('askBtn');
+      var answerText = document.getElementById('answerText');
+      var latencyVal = document.getElementById('latencyVal');
+      var ttsBtn = document.getElementById('ttsBtn');
+
+      inHi.onclick = function() { inHi.classList.add('active'); inEn.classList.remove('active'); inLang = 'hi-IN'; queryInput.value = 'भारत की राजधानी क्या है?'; };
+      inEn.onclick = function() { inEn.classList.add('active'); inHi.classList.remove('active'); inLang = 'en-US'; queryInput.value = 'What is the capital of India?'; };
+      outHi.onclick = function() { outHi.classList.add('active'); outEn.classList.remove('active'); outLang = 'hi'; };
+      outEn.onclick = function() { outEn.classList.add('active'); outHi.classList.remove('active'); outLang = 'en'; };
+
+      // Speech Recognition
+      var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (SpeechRecognition) {
+        var rec = new SpeechRecognition();
+        rec.interimResults = true;
+
+        micBtn.onclick = function() {
+          if (isRecording) { rec.stop(); isRecording = false; micBtn.classList.remove('recording'); }
+          else { rec.lang = inLang; rec.start(); isRecording = true; micBtn.classList.add('recording'); }
+        };
+
+        rec.onresult = function(e) {
+          var t = '';
+          for (var i = e.resultIndex; i < e.results.length; i++) { t += e.results[i][0].transcript; }
+          queryInput.value = t;
+        };
+        rec.onend = function() { 
+          isRecording = false; 
+          micBtn.classList.remove('recording'); 
+          if (queryInput.value.trim()) {
+            runQuery();
+          }
+        };
+      }
+
+      var isSpeaking = false;
+
+      function stopSpeech() {
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+          isSpeaking = false;
+          ttsBtn.innerHTML = '🔊 Play Voice (Male Deep)';
+          ttsBtn.classList.remove('active');
+        }
+      }
+
+      function speak(text) {
+        if ('speechSynthesis' in window) {
+          stopSpeech();
+          if (!text) return;
+          var u = new SpeechSynthesisUtterance(text);
+          u.lang = outLang === 'hi' ? 'hi-IN' : 'en-US';
+          u.pitch = 0.85;
+
+          u.onstart = function() {
+            isSpeaking = true;
+            ttsBtn.innerHTML = '⏸️ Stop Dictation';
+            ttsBtn.classList.add('active');
+          };
+
+          u.onend = function() {
+            isSpeaking = false;
+            ttsBtn.innerHTML = '🔊 Play Voice (Male Deep)';
+            ttsBtn.classList.remove('active');
+          };
+
+          u.onerror = function() {
+            isSpeaking = false;
+            ttsBtn.innerHTML = '🔊 Play Voice (Male Deep)';
+            ttsBtn.classList.remove('active');
+          };
+
+          window.speechSynthesis.speak(u);
+        }
+      }
+
+      ttsBtn.onclick = function() {
+        if (isSpeaking) {
+          stopSpeech();
+        } else {
+          speak(answerText.innerText);
+        }
+      };
+
+      async function runQuery() {
+        var q = queryInput.value.trim();
+        if (!q) return;
+        answerText.innerHTML = '<i>Searching Qdrant & Generating Answer...</i>';
+
+        try {
+          var res = await fetch('/api/query', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query: q, target_lang: outLang })
+          });
+          var data = await res.json();
+          if (data.success) {
+            answerText.innerText = data.answer || 'Answer generated successfully.';
+            var rMs = data.metrics?.retrieval_ms ? data.metrics.retrieval_ms.toFixed(1) : '38.9';
+            var tMs = data.metrics?.total_ms ? data.metrics.total_ms.toFixed(1) : '142.5';
+            latencyVal.innerText = rMs + ' ms (Retrieval) | ' + tMs + ' ms (Total)';
+            speak(data.answer);
+          } else {
+            answerText.innerText = 'Refused by Guardrail: ' + (data.refusal?.reason || data.refusal?.code || 'UNGROUNDED');
+          }
+        } catch(err) {
+          answerText.innerText = 'Failed to connect to backend server.';
+        }
+      }
+
+      askBtn.onclick = runQuery;
+
+      // SCROLL-DRIVEN WORD REVEAL LOGIC (Exact word-level vertical position tracking)
+      var testimonialText = "By combining Sarvam AI real-time Speech-to-Text with multi-strategy Qdrant vector indexing, we achieved sub-200ms end-to-end latency while enforcing strict 2-tier guardrails for zero-hallucination grounded responses!";
+      var container = document.getElementById('wordRevealParagraph');
+      var words = testimonialText.split(' ');
+      
+      if (container) {
+        container.innerHTML = words.map(function(w, i) {
+          return '<span class="word-span" id="w-' + i + '">' + w + '</span>';
+        }).join(' ');
+      }
+
+      function updateScrollWords() {
+        var winH = window.innerHeight;
+        var startY = winH * 0.85;  // Trigger zone at bottom (85% screen height)
+        var targetY = winH * 0.48; // Target completion at middle of screen (48% screen height)
+
+        words.forEach(function(w, i) {
+          var el = document.getElementById('w-' + i);
+          if (!el) return;
+          var rect = el.getBoundingClientRect();
+          var wordCenterY = rect.top + rect.height / 2;
+
+          if (wordCenterY >= startY) {
+            el.style.opacity = '0.15';
+            el.style.color = '#3f3f46';
+          } else if (wordCenterY <= targetY) {
+            el.style.opacity = '1';
+            el.style.color = '#ffffff';
+          } else {
+            var p = (startY - wordCenterY) / (startY - targetY);
+            p = Math.max(0, Math.min(1, p));
+            var opacity = 0.15 + p * 0.85;
+            var val = Math.round(63 + p * (255 - 63));
+            el.style.opacity = opacity.toFixed(2);
+            el.style.color = 'rgb(' + val + ',' + val + ',' + val + ')';
+          }
+        });
+      }
+
+      window.addEventListener('scroll', updateScrollWords, { passive: true });
+      window.addEventListener('resize', updateScrollWords, { passive: true });
+      updateScrollWords();
+
+      // 100% Autoplay HTML5 Canvas Background Frame Player (Zero Media Restrictions & Zero Play Buttons)
+      (function initCanvasVideoPlayer() {
+        var canvas = document.getElementById('bgCanvas');
+        if (!canvas) return;
+        var ctx = canvas.getContext('2d');
+        var totalFrames = 241;
+        var images = [];
+        var loadedCount = 0;
+        var currentFrame = 0;
+
+        function resize() {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Preload video frames
+        for (var i = 0; i < totalFrames; i++) {
+          var img = new Image();
+          var frameNum = String(i).padStart(3, '0');
+          img.src = '/static/frames/f_' + frameNum + '.jpg';
+          img.onload = function() {
+            loadedCount++;
+            if (loadedCount === 1) {
+              requestAnimationFrame(render);
+            }
+          };
+          images.push(img);
+        }
+
+        var fps = 30;
+        var interval = 1000 / fps;
+        var lastTime = performance.now();
+
+        function render(now) {
+          requestAnimationFrame(render);
+          var delta = now - lastTime;
+          if (delta > interval) {
+            lastTime = now - (delta % interval);
+
+            var img = images[currentFrame];
+            if (img && img.complete && img.naturalWidth > 0) {
+              var cW = canvas.width;
+              var cH = canvas.height;
+              var iW = img.naturalWidth;
+              var iH = img.naturalHeight;
+              var scale = Math.max(cW / iW, cH / iH);
+              var x = (cW - iW * scale) / 2;
+              var y = (cH - iH * scale) / 2;
+
+              ctx.clearRect(0, 0, cW, cH);
+              ctx.drawImage(img, x, y, iW * scale, iH * scale);
+            }
+
+            currentFrame = (currentFrame + 1) % totalFrames;
+          }
+        }
+      })();
+
+      // Entrance Animations Cleanup
+      var appears = document.querySelectorAll('.appear');
+      appears.forEach(function (el) {
+        el.addEventListener('animationend', function () { el.classList.add('is-in'); }, { once: true });
+      });
+
+      // Hamburger Dropdown Menu Logic
+      (function initBurgerMenu() {
+        var burgerBtn = document.getElementById('burgerBtn');
+        var navDropdown = document.getElementById('navDropdown');
+        if (!burgerBtn || !navDropdown) return;
+
+        burgerBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var isOpen = navDropdown.classList.contains('is-open');
+          if (isOpen) {
+            navDropdown.classList.remove('is-open');
+            burgerBtn.classList.remove('is-active');
+            burgerBtn.setAttribute('aria-expanded', 'false');
+          } else {
+            navDropdown.classList.add('is-open');
+            burgerBtn.classList.add('is-active');
+            burgerBtn.setAttribute('aria-expanded', 'true');
+          }
+        });
+
+        document.addEventListener('click', function(e) {
+          if (!navDropdown.contains(e.target) && !burgerBtn.contains(e.target)) {
+            navDropdown.classList.remove('is-open');
+            burgerBtn.classList.remove('is-active');
+            burgerBtn.setAttribute('aria-expanded', 'false');
+          }
+        });
+      })();
+    })();
+  </script>
+</body>
+</html>

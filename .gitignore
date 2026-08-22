@@ -1,0 +1,12 @@
+.env
+PROMPT.md
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.DS_Store
+*.log
+venv/
+.venv/
+env/
+static/bg_video.mp4

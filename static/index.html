@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice-Enabled RAG Dashboard | HH Goa 2026</title>
+    <!-- Modern Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #090a0f;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover-border: rgba(99, 102, 241, 0.4);
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --accent-cyan: #06b6d4;
+            --accent-purple: #8b5cf6;
+            --accent-pink: #ec4899;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --glow-cyan: rgba(6, 182, 212, 0.25);
+            --glow-purple: rgba(139, 92, 246, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', 'Noto Sans Devanagari', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Ambient Glow Spheres */
+        .ambient-glow {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .glow-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--accent-purple);
+            top: -100px;
+            left: -150px;
+            opacity: 0.25;
+        }
+        .glow-2 {
+            width: 450px;
+            height: 450px;
+            background: var(--accent-cyan);
+            bottom: -50px;
+            right: -100px;
+            opacity: 0.25;
+        }
+
+        /* Main Container */
+        .container {
+            width: 100%;
+            max-width: 1240px;
+            padding: 2.5rem 1.5rem;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .logo-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .logo-badge {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            color: white;
+            font-weight: 700;
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+        h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .sub-tag {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Bento Grid Layout */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1.25rem;
+        }
+
+        /* Glassmorphism Card Style */
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card:hover {
+            border-color: var(--card-hover-border);
+            box-shadow: 0 10px 30px -10px var(--glow-purple);
+        }
+
+        /* Bento Card Sizes */
+        .col-12 { grid-column: span 12; }
+        .col-8  { grid-column: span 8; }
+        .col-7  { grid-column: span 7; }
+        .col-5  { grid-column: span 5; }
+        .col-4  { grid-column: span 4; }
+
+        @media (max-width: 900px) {
+            .col-8, .col-7, .col-5, .col-4 { grid-column: span 12; }
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+        .card-icon {
+            font-size: 1.2rem;
+        }
+
+        /* 1. Voice Orb Card */
+        .voice-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+        .orb-outer {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .orb-pulse {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            opacity: 0.3;
+            animation: pulse-ring 2.5s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+        .orb-btn {
+            position: relative;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1e1b4b, #312e81);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 25px var(--glow-purple);
+            z-index: 2;
+        }
+        .orb-btn:hover {
+            transform: scale(1.08);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 40px var(--glow-cyan);
+        }
+        .orb-btn.recording {
+            background: linear-gradient(135deg, #991b1b, #ef4444);
+            animation: orb-recording-glow 1s infinite alternate;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(0.85); opacity: 0.5; }
+            100% { transform: scale(1.4); opacity: 0; }
+        }
+        @keyframes orb-recording-glow {
+            from { box-shadow: 0 0 20px rgba(239, 68, 68, 0.5); }
+            to { box-shadow: 0 0 45px rgba(239, 68, 68, 0.9); }
+        }
+
+        /* Input Box Fallback */
+        .search-box {
+            width: 100%;
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .text-input {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            color: white;
+            font-family: inherit;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .text-input:focus {
+            border-color: var(--accent-purple);
+        }
+        .submit-btn {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan));
+            border: none;
+            border-radius: 12px;
+            padding: 0 1.25rem;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .submit-btn:hover { opacity: 0.9; }
+
+        /* Status Badge */
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .badge-success { background: rgba(16, 185, 129, 0.2); color: var(--accent-green); border: 1px solid var(--accent-green); }
+        .badge-refused { background: rgba(239, 68, 68, 0.2); color: var(--accent-red); border: 1px solid var(--accent-red); }
+        .badge-idle    { background: rgba(156, 163, 175, 0.2); color: var(--text-secondary); border: 1px solid var(--text-secondary); }
+
+        /* Answer Card Content */
+        .answer-content {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            color: #f8fafc;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Metric Item Bars */
+        .metric-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+        .metric-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        .metric-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .metric-val {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .metric-bar-bg {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .metric-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        /* Target indicator */
+        .target-box {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            background: rgba(6, 182, 212, 0.08);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+
+        /* Chunk Item */
+        .chunk-item {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 0.85rem;
+            margin-bottom: 0.6rem;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+        }
+        .chunk-tag {
+            font-size: 0.7rem;
+            color: var(--accent-purple);
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            border: 3px solid rgba(255,255,255,0.1);
+            border-left-color: var(--accent-cyan);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo-group">
+                <span class="logo-badge">HH GOA 2026</span>
+                <div>
+                    <h1>Voice RAG Dashboard</h1>
+                    <div class="sub-tag">Sub-200ms Hindi Pipeline with Two-Tier Guardrails</div>
+                </div>
+            </div>
+            <div id="connectionStatus" class="status-badge badge-idle">Ready</div>
+        </header>
+
+        <!-- Bento Grid -->
+        <div class="bento-grid">
+
+            <!-- Card 1: Central Voice Capture -->
+            <div class="glass-card col-5 voice-section">
+                <div class="card-title" style="margin-bottom: 1.5rem;">
+                    <span class="card-icon">🎙️</span> Voice Query Input
+                </div>
+                <div class="orb-outer">
+                    <div class="orb-pulse" id="orbPulse"></div>
+                    <button class="orb-btn" id="micBtn" title="Click to Speak">
+                        🎤
+                    </button>
+                </div>
+                <div id="sttText" style="font-size: 0.95rem; color: var(--text-secondary); min-height: 40px;">
+                    Click the microphone or type below to ask a Hindi question...
+                </div>
+
+                <div class="search-box">
+                    <input type="text" id="queryInput" class="text-input" placeholder="e.g. भारत की राजधानी क्या है?" value="भारत की राजधानी क्या है?">
+                    <button class="submit-btn" id="sendBtn">Ask</button>
+                </div>
+            </div>
+
+            <!-- Card 2: Generated Grounded Answer -->
+            <div class="glass-card col-7">
+                <div class="card-header">
+                    <div class="card-title">
+                        <span class="card-icon">💬</span> Grounded Answer
+                    </div>
+                    <span id="ragStatusBadge" class="status-badge badge-idle">Awaiting Query</span>
+                </div>
+                
+                <div class="answer-content" id="answerBox">
+                    <span style="color: var(--text-secondary); font-size: 0.95rem;">
+                        Your generated Hindi answer will appear here, strictly grounded in retrieved MSMARCO context.
+                    </span>
+                </div>
+
+                <!-- Refusal Box if triggered -->
+                <div id="refusalAlert" style="display: none; margin-top: 1rem; padding: 0.75rem 1rem; background: rgba(239, 68, 68, 0.15); border: 1px solid var(--accent-red); border-radius: 12px; font-size: 0.85rem; color: #fca5a5;">
+                    <strong>🛡️ Guardrail Refusal Triggered:</strong>
+                    <span id="refusalMsg"></span>
+                </div>
+            </div>
+
+            <!-- Card 3: Real-Time Latency Analytics -->
+            <div class="glass-card col-6">
+                <div class="card-header">
+                    <div class="card-title">
+                        <span class="card-icon">⚡</span> Real-Time Latency Breakdown
+                    </div>
+                    <div style="font-size: 0.85rem; color: var(--accent-cyan); font-weight: 600;" id="totalTimeDisplay">
+                        0.0 ms
+                    </div>
+                </div>
+
+                <div class="metric-list">
+                    <div class="metric-row">
+                        <div class="metric-header">
+                            <span>1. Vector DB Retrieval</span>
+                            <span class="metric-val" id="retrievalTime">0.0 ms</span>
+                        </div>
+                        <div class="metric-bar-bg">
+                            <div class="metric-bar-fill" id="retrievalBar" style="width: 0%; background: var(--accent-cyan);"></div>
+                        </div>
+                    </div>
+
+                    <div class="metric-row">
+                        <div class="metric-header">
+                            <span>2. Pre-Guardrail Confidence Gate</span>
+                            <span class="metric-val" id="guardrailPreTime">0.0 ms</span>
+                        </div>
+                        <div class="metric-bar-bg">
+                            <div class="metric-bar-fill" id="guardrailPreBar" style="width: 0%; background: var(--accent-pink);"></div>
+                        </div>
+                    </div>
+
+                    <div class="metric-row">
+                        <div class="metric-header">
+                            <span>3. Groq Llama 3.1 LLM Generation</span>
+                            <span class="metric-val" id="generationTime">0.0 ms</span>
+                        </div>
+                        <div class="metric-bar-bg">
+                            <div class="metric-bar-fill" id="generationBar" style="width: 0%; background: var(--accent-purple);"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="target-box">
+                    <span><strong>Target Latency:</strong> &lt; 200 ms</span>
+                    <span id="latencyCompliance" style="color: var(--accent-green); font-weight: 700;">✅ COMPLIANT</span>
+                </div>
+            </div>
+
+            <!-- Card 4: Multi-Strategy Retrieval Provenance -->
+            <div class="glass-card col-6">
+                <div class="card-header">
+                    <div class="card-title">
+                        <span class="card-icon">📚</span> Multi-Strategy Retrieval Provenance
+                    </div>
+                    <span class="status-badge badge-idle" id="strategyBadge">Passage / SW / Semantic</span>
+                </div>
+
+                <div id="chunksContainer">
+                    <div class="chunk-item">
+                        <div class="chunk-tag">PROVENANCE: MULTI-STRATEGY CHUNKING</div>
+                        <div>Execute a query to inspect retrieved passage, sentence-window, and semantic vector chunks from Qdrant.</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const queryInput = document.getElementById('queryInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const micBtn = document.getElementById('micBtn');
+        const orbPulse = document.getElementById('orbPulse');
+        const sttText = document.getElementById('sttText');
+        const answerBox = document.getElementById('answerBox');
+        const ragStatusBadge = document.getElementById('ragStatusBadge');
+        const refusalAlert = document.getElementById('refusalAlert');
+        const refusalMsg = document.getElementById('refusalMsg');
+        const totalTimeDisplay = document.getElementById('totalTimeDisplay');
+        const retrievalTime = document.getElementById('retrievalTime');
+        const retrievalBar = document.getElementById('retrievalBar');
+        const guardrailPreTime = document.getElementById('guardrailPreTime');
+        const guardrailPreBar = document.getElementById('guardrailPreBar');
+        const generationTime = document.getElementById('generationTime');
+        const generationBar = document.getElementById('generationBar');
+        const chunksContainer = document.getElementById('chunksContainer');
+        const strategyBadge = document.getElementById('strategyBadge');
+        const latencyCompliance = document.getElementById('latencyCompliance');
+
+        let isRecording = false;
+
+        sendBtn.addEventListener('click', () => {
+            const query = queryInput.value.trim();
+            if (query) executeRAG(query);
+        });
+
+        queryInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const query = queryInput.value.trim();
+                if (query) executeRAG(query);
+            }
+        });
+
+        // Speech Recognition API if supported by browser
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (SpeechRecognition) {
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'hi-IN';
+            recognition.interimResults = true;
+
+            micBtn.addEventListener('click', () => {
+                if (!isRecording) {
+                    recognition.start();
+                    isRecording = true;
+                    micBtn.classList.add('recording');
+                    sttText.innerText = "Listening in Hindi...";
+                } else {
+                    recognition.stop();
+                    isRecording = false;
+                    micBtn.classList.remove('recording');
+                }
+            });
+
+            recognition.onresult = (event) => {
+                let transcript = '';
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    transcript += event.results[i][0].transcript;
+                }
+                sttText.innerText = `Transcribed: "${transcript}"`;
+                queryInput.value = transcript;
+                if (event.results[0].isFinal) {
+                    recognition.stop();
+                    isRecording = false;
+                    micBtn.classList.remove('recording');
+                    executeRAG(transcript);
+                }
+            };
+
+            recognition.onerror = () => {
+                isRecording = false;
+                micBtn.classList.remove('recording');
+            };
+        } else {
+            micBtn.addEventListener('click', () => {
+                alert("Browser Speech Recognition not available in this tab. Using text query input.");
+            });
+        }
+
+        async function executeRAG(queryText) {
+            ragStatusBadge.className = 'status-badge badge-idle';
+            ragStatusBadge.innerText = 'Processing...';
+            answerBox.innerHTML = '<div class="spinner"></div><span style="margin-left: 0.75rem;">Searching Qdrant & Generating Grounded Answer...</span>';
+            refusalAlert.style.display = 'none';
+
+            try {
+                const res = await fetch('/api/query', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query: queryText })
+                });
+
+                const data = await res.json();
+                renderResponse(data);
+            } catch (err) {
+                ragStatusBadge.className = 'status-badge badge-refused';
+                ragStatusBadge.innerText = 'Error';
+                answerBox.innerText = 'Failed to connect to backend server.';
+            }
+        }
+
+        function renderResponse(data) {
+            if (data.success) {
+                ragStatusBadge.className = 'status-badge badge-success';
+                ragStatusBadge.innerText = 'SUCCESS';
+                answerBox.innerText = data.answer || 'Answer generated.';
+                refusalAlert.style.display = 'none';
+            } else {
+                ragStatusBadge.className = 'status-badge badge-refused';
+                ragStatusBadge.innerText = 'VETOED / REFUSED';
+                answerBox.innerText = 'Request was blocked by Hard Guardrail Gate.';
+                refusalAlert.style.display = 'block';
+                refusalMsg.innerText = `${data.refusal?.code}: ${data.refusal?.message}`;
+            }
+
+            // Render Metrics
+            const m = data.metrics || {};
+            const total = m.total_ms || 0;
+            totalTimeDisplay.innerText = `${total.toFixed(1)} ms`;
+
+            const ret = m.retrieval_ms || 0;
+            retrievalTime.innerText = `${ret.toFixed(1)} ms`;
+            retrievalBar.style.width = `${Math.min(100, (ret / Math.max(1, total)) * 100)}%`;
+
+            const pre = m.guardrail_pre_ms || 0;
+            guardrailPreTime.innerText = `${pre.toFixed(1)} ms`;
+            guardrailPreBar.style.width = `${Math.min(100, (pre / Math.max(1, total)) * 100)}%`;
+
+            const gen = m.generation_ms || 0;
+            generationTime.innerText = `${gen.toFixed(1)} ms`;
+            generationBar.style.width = `${Math.min(100, (gen / Math.max(1, total)) * 100)}%`;
+
+            if (total <= 200) {
+                latencyCompliance.innerHTML = '✅ COMPLIANT (&lt;200ms)';
+                latencyCompliance.style.color = 'var(--accent-green)';
+            } else {
+                latencyCompliance.innerHTML = '⚠️ EXCEEDS TARGET (&gt;200ms)';
+                latencyCompliance.style.color = 'var(--accent-pink)';
+            }
+
+            // Render Provenance / Chunks
+            if (data.sources && data.sources.length > 0) {
+                strategyBadge.innerText = `Sources: ${data.sources.length} Chunks`;
+                strategyBadge.className = 'status-badge badge-success';
+                
+                chunksContainer.innerHTML = data.sources.map((src, i) => `
+                    <div class="chunk-item">
+                        <div class="chunk-tag">RETRIEVED CHUNK SOURCE ${i+1}</div>
+                        <div>Chunk ID: <strong>${src}</strong></div>
+                    </div>
+                `).join('');
+            } else {
+                strategyBadge.innerText = 'No Chunks Used';
+                chunksContainer.innerHTML = `
+                    <div class="chunk-item">
+                        <div class="chunk-tag">GUARDRAIL VETO</div>
+                        <div>No context chunks were passed to generator due to low retrieval score or refusal gate.</div>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

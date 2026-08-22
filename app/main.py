@@ -50,17 +50,14 @@ stt_service = SarvamSTTService()
 
 @app.on_event("startup")
 def warmup_services():
-    """Pre-warms vector DB, sentence transformer MPS model, and metal shaders at startup."""
-    logger.info("Pre-warming Qdrant vector database and embedding model...")
+    """Pre-warms vector DB client and lightweight embedding model at startup."""
+    logger.info("Initializing background services...")
     try:
         from app.retrieval import get_qdrant_client
-        from app.embed import get_embedding_model, embed_query
-        get_embedding_model()
-        embed_query("warmup query")
         get_qdrant_client()
-        logger.info("Server pre-warming complete. Sub-200ms query latency ready.")
+        logger.info("Server startup complete.")
     except Exception as e:
-        logger.warning(f"Startup pre-warming warning: {e}")
+        logger.warning(f"Startup initialization warning: {e}")
 
 class QueryRequest(BaseModel):
     query: str

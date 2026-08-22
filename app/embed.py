@@ -14,9 +14,9 @@ def get_embedding_model():
             # Multilingual sentence transformer for Hindi/Indic language semantic vector search
             logger.info("Loading local multilingual sentence-transformer model...")
             try:
-                _model_instance = SentenceTransformer("sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2", local_files_only=True)
+                _model_instance = SentenceTransformer("BAAI/bge-small-en-v1.5", local_files_only=True)
             except Exception:
-                _model_instance = SentenceTransformer("sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
+                _model_instance = SentenceTransformer("BAAI/bge-small-en-v1.5")
             logger.info("Multilingual SentenceTransformer model loaded successfully.")
         except Exception as e:
             logger.warning(f"Could not load SentenceTransformer ({e}). Using local lightweight dummy embedder for fallback.")

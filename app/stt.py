@@ -2,7 +2,7 @@ import os
 import json
 import logging
 import asyncio
-from typing import AsyncGenerator
+from typing import AsyncGenerator, Optional
 from dotenv import load_dotenv
 from tenacity import retry, stop_after_attempt, wait_fixed
 

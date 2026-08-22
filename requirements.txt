@@ -3,10 +3,9 @@ uvicorn[standard]
 pydantic>=2.0
 tenacity
 qdrant-client
-sentence-transformers
 groq
 websockets
 python-dotenv
-datasets
+numpy
 pytest
 requests

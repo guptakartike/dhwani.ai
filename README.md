@@ -145,17 +145,6 @@ Interactive simulation available on the [architecture page](https://dhwani-ai-s3
 Built on [`ai4bharat/MSMARCO-XI`](https://huggingface.co/datasets/ai4bharat/MSMARCO-XI) (Hindi subset), part of AI4Bharat's IndicRAGSuite. Each example provides a query, reference answers, and retrieval passages.
 
 ---
-
-## Team & Submission
-
-Built for **HH Goa 2026 — Task 2 (Voice-Enabled RAG)**.
-
-Each team member has independently deployed and submitted their own instance of this pipeline, per HH Goa's individual-submission requirement:
-
-- `TODO: name — live link — repo link`
-- `TODO: name — live link — repo link`
-- `TODO: name — live link — repo link`
-
-`#RAGInGoa`
+## `#RAGInGoa`
 
 ![](static/readme_images/moto.png)
